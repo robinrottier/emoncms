@@ -1,0 +1,2 @@
+*.sh eol=lf
+makefile eol=lf
