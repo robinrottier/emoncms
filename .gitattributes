@@ -1,2 +1,3 @@
 *.sh eol=lf
+*.conf eol=lf
 makefile eol=lf

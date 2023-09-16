@@ -38,6 +38,7 @@ ARG \
 	PRIMOS="apache2 redis mosquitto mariadb" \
 	SECONDOS="emoncms_mqtt service-runner feedwriter" \
 	HTTP_CONF=/etc/apache2/httpd.conf \
+	MQTT_CONFDIR=/etc/mosquitto \
 	MQTT_CONF=/etc/mosquitto/mosquitto.conf \
 	REDIS_CONF=/etc/redis.conf \
 	# source for Mosquitto-PHP extension
@@ -151,12 +152,6 @@ RUN set -x;\
 	cd phpredis && phpize && ./configure && make && make install;\
 	printf "extension=redis.so" | tee $PHP_CONF/redis.ini 1>&2;\
 	pip3 install redis;\
-	echo "persistence false" >> $MQTT_CONF;\
-	echo "allow_anonymous false" >> $MQTT_CONF;\
-	echo "listener 1883" >> $MQTT_CONF;\
-	echo "password_file /etc/mosquitto/passwd" >> $MQTT_CONF;\
-	echo "log_dest stdout" >> $MQTT_CONF;\
-	echo "#log_type error" >> $MQTT_CONF;\
 	git clone $MOSQUITTO_PHP;\
 	cd Mosquitto-PHP && phpize && ./configure && make && make install;\
 	printf "extension=mosquitto.so" | tee $PHP_CONF/mosquitto.ini 1>&2;\
@@ -165,6 +160,7 @@ RUN set -x;\
 	# this will remove sources for phpredis and Mosquitto-PHP
 	rm -Rf $OEM_DIR/phpredis
 
+COPY mosquitto.conf $MQTT_CONFDIR
 COPY emoncms_pre.sh .
 COPY sql_ready.sh .
 
