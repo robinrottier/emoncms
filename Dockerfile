@@ -6,7 +6,7 @@ ARG \
 	S6_SRC=https://github.com/just-containers/s6-overlay/releases/download \
 	S6_DIR=/etc/s6-overlay/s6-rc.d
 
-ENV TZ="Europe/Paris"
+ENV TZ="Europe/London"
 
 # the sql database and the timeseries will be in /data/emoncms but it can be changed
 # we start with the sql database
